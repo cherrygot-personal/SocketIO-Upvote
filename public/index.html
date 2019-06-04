@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>SocketIO Upvote</title>
+  <style>  
+    .container {
+      width: 80%;
+      margin: 1rem auto;
+    }
+    
+    .text-justify {
+      text-align: justify;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    
+    <p class="text-justify">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam sed turpis sit amet 
+    tellus convallis tincidunt quis ut massa. Phasellus maximus orci quis mauris tincidunt, ut tempor turpis 
+    tincidunt. Curabitur vestibulum nunc consequat venenatis ultrices. Aliquam eget congue risus, in imperdiet urna. 
+    Vestibulum varius velit risus, non luctus arcu placerat vel. In hac habitasse platea dictumst. Pellentesque vitae 
+    justo volutpat, euismod ligula quis, posuere nibh.
+    </p>
+    
+  </div>
+  
+  <div class="container">
+    <center>
+      <button id="upvote-btn"> Upvote </button>
+      <p id="upvote-count">0 Upvotes</p>
+    </center>
+  </div>
+  
+  <script src="/socket.io/socket.io.js"></script>
+  <script>  
+    var socket = io();
+    var btn = document.getElementById( 'upvote-btn' );
+    var upvote_val = false;
+    
+    btn.addEventListener( 'click', function( e ) {
+      e.preventDefault();   // prevent page reloading
+      
+      upvote_val = upvote_val ? false: true;
+      
+      socket.emit( 'upvote-event', upvote_val );
+    });
+    
+    socket.on( 'update-upvotes', function( f_str ) {
+      document.getElementById( 'upvote-count' ).innerHTML = f_str;
+    });
+  </script>
+</body>
+</html>
